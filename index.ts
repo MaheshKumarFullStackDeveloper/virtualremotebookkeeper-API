@@ -18,8 +18,7 @@ const PORT = process.env.PORT || 8080;
 
 const app = express();
 const corsOption={
-   /*  origin:process.env.FRONT_URL,  */
-    origin: '*', 
+    origin:"https://virtualadmin.onrender.com", 
     credentials:true
 }
 
@@ -27,19 +26,19 @@ const corsOption={
 
 
 // Middleware to handle CORS errors
-/* const corsErrorHandler = (req: Request, res: Response, next: NextFunction): void => {
-    const allowedOrigins = [process.env.FRONT_URL];
+const corsErrorHandler = (req: Request, res: Response, next: NextFunction): void => {
+    const allowedOrigins = ["https://virtualadmin.onrender.com"];
     if (!allowedOrigins.includes(req.headers.origin as string)) {
         res.status(403).json({ error: "CORS error: Origin not allowed" });
     } else {
         next();
     }
-}; */
+};
 
 
 
 app.use(cors(corsOption));
-/* app.use(corsErrorHandler); */
+app.use(corsErrorHandler);
 
 
 
