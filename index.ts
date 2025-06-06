@@ -1,4 +1,6 @@
-import express from 'express';
+
+import express, { Request, Response, NextFunction } from "express";
+
 import dotenv from 'dotenv';
 import cors from 'cors';
 import bodyParser from 'body-parser';
@@ -20,7 +22,26 @@ const corsOption={
     credentials:true
 }
 
+
+
+
+// Middleware to handle CORS errors
+const corsErrorHandler = (req: Request, res: Response, next: NextFunction): void => {
+    const allowedOrigins = [process.env.FRONT_URL];
+    if (!allowedOrigins.includes(req.headers.origin as string)) {
+        res.status(403).json({ error: "CORS error: Origin not allowed" });
+    } else {
+        next();
+    }
+};
+
+
+
 app.use(cors(corsOption));
+app.use(corsErrorHandler);
+
+
+
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(cookiesParser());
