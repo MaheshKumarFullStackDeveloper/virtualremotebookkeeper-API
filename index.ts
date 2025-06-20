@@ -8,8 +8,12 @@ import cookiesParser from 'cookie-parser';
 import connectDb from './config/dbConnect';
 import authRoutes from './routes/authRoutes';
 import productRoutes from './routes/productRoutes';
-import addressRoutes from './routes/addressRoutes';
+import imageRoutes from './routes/imageRoutes';
 import userRoutes from './routes/userRoutes';
+import pageRoutes from './routes/pageRoutes';
+import sectionRoutes from './routes/sectionRoutes';
+import blogRoutes from './routes/blogRoutes';
+import categoryRoutes from './routes/categoryRoutes';
 
 
 dotenv.config();
@@ -17,9 +21,9 @@ dotenv.config();
 const PORT = process.env.PORT || 8080;
 
 const app = express();
-const corsOption={
-    origin:process.env.FRONT_URL, 
-    credentials:true
+const corsOption = {
+    origin: process.env.FRONT_URL,
+    credentials: true
 }
 
 
@@ -28,7 +32,7 @@ const corsOption={
 // Middleware to handle CORS errors
 const corsErrorHandler = (req: Request, res: Response, next: NextFunction): void => {
     const allowedOrigins = [process.env.FRONT_URL];
-    if (!allowedOrigins.includes(req.headers.origin as string))  {
+    if (!allowedOrigins.includes(req.headers.origin as string)) {
         res.status(403).json({ error: "CORS error: Origin not allowed" });
     } else {
         next();
@@ -47,15 +51,30 @@ app.use(bodyParser.json());
 app.use(cookiesParser());
 
 
-app.listen(PORT,()=>{
+app.listen(PORT, () => {
     console.log(`lission port ${PORT}`);
-    
+
 })
 
 
 connectDb();
 
-app.use("/api/auth",authRoutes)
-app.use("/api/product",productRoutes)
-app.use("/api/user/address",addressRoutes)
-app.use("/api/user/profile",userRoutes)
+
+/* app.post('/api/category', async (req, res) => {
+    try {
+        // your logic here
+        res.json({ success: true, message: 'Category added' });
+    } catch (error) {
+        console.error('Server error:', error);
+        res.status(500).json({ success: false, message: 'Internal Server Error' });
+    }
+}); */
+
+app.use("/api/auth", authRoutes)
+app.use("/api/product", productRoutes)
+app.use("/api/page", pageRoutes)
+app.use("/api/category", categoryRoutes)
+app.use("/api/blog", blogRoutes)
+app.use("/api/section", sectionRoutes)
+app.use("/api/image", imageRoutes)
+app.use("/api/user/profile", userRoutes)

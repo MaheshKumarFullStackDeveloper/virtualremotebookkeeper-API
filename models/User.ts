@@ -13,7 +13,6 @@ export interface IUSER extends Document {
  resetPasswordToken? :string;
  resetPasswordExpires? :Date;
  agreeTerms? :boolean ;
- addresses? :mongoose.Types.ObjectId[];
  comparePassword(candidatePassword:string):Promise<boolean>
 }
 
@@ -24,7 +23,6 @@ const userSchema = new Schema<IUSER>({
   name: { type: String },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  addresses: [{ type:Schema.Types.ObjectId,ref:'Address' }], 
   googleId: { type: String },
   profilePicture: { type: String,default:null },
   phoneNumber: { type: String,default:null },
