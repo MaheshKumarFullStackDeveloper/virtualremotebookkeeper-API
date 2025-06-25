@@ -5,21 +5,21 @@ import bodyParser from "body-parser";
 import cookiesParser from "cookie-parser";
 
 // Database
-import connectDb from "./config/dbConnect";
+import connectDb from "../config/dbConnect";
 
 // Routes
-import authRoutes from "./routes/authRoutes";
-import productRoutes from "./routes/productRoutes";
-import imageRoutes from "./routes/imageRoutes";
-import userRoutes from "./routes/userRoutes";
-import pageRoutes from "./routes/pageRoutes";
-import sectionRoutes from "./routes/sectionRoutes";
-import blogRoutes from "./routes/blogRoutes";
-import faqcategoryRoutes from "./routes/faqcategoryRoutes";
-import faqRoutes from "./routes/faqRoutes";
-import categoryRoutes from "./routes/categoryRoutes";
-import menuRoutes from "./routes/menuRoutes";
-import widgetRoutes from "./routes/widgetRoutes";
+import authRoutes from "../routes/authRoutes";
+import productRoutes from "../routes/productRoutes";
+import imageRoutes from "../routes/imageRoutes";
+import userRoutes from "../routes/userRoutes";
+import pageRoutes from "../routes/pageRoutes";
+import sectionRoutes from "../routes/sectionRoutes";
+import blogRoutes from "../routes/blogRoutes";
+import faqcategoryRoutes from "../routes/faqcategoryRoutes";
+import faqRoutes from "../routes/faqRoutes";
+import categoryRoutes from "../routes/categoryRoutes";
+import menuRoutes from "../routes/menuRoutes";
+import widgetRoutes from "../routes/widgetRoutes";
 
 dotenv.config();
 
