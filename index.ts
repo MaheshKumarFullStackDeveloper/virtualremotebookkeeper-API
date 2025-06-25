@@ -81,4 +81,4 @@ app.use("/api/user/profile", userRoutes)
 
 
 
-app.get('/', (req: Request, res: Response) => { res.send(`Hello - 9 from Express! ${PORT}`) }); 
+app.get('/', (req: Request, res: Response) => { res.send(`Hello - 10 from Express! ${PORT}`) }); 

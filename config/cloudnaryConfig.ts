@@ -34,12 +34,12 @@ const uploadToCloudinary = (file: CustomFile): Promise<UploadApiResponse> => {
 
 const deleteFromCloudinary = (publicId: string): Promise<UploadApiResponse> => {
     return new Promise((resolve, reject) => {
-        /* cloudinary.uploader.destroy(publicId, (error, result) => {
+        cloudinary.uploader.destroy(publicId, (error, result) => {
             if (error) {
                 return reject(error);
             }
             resolve(result as UploadApiResponse);
-        }); */
+        });
     });
 };
 
