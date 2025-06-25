@@ -78,4 +78,5 @@ app.use("/api/image", imageRoutes)
 app.use("/api/navigation", menuRoutes)
 app.use("/api/user/profile", userRoutes)
 
+app.get('/', (req, res) => { res.send('Hello 1 from Express!') });
 
