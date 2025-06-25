@@ -47,7 +47,7 @@ const corsErrorHandler = (req: Request, res: Response, next: NextFunction): void
 
 
 app.use(cors(corsOption));
-//app.options('*', cors()); // Handle preflight
+app.options("/*", cors()); // Handle preflight
 
 //app.use(corsErrorHandler);
 
@@ -83,5 +83,4 @@ app.use("/api/user/profile", userRoutes)
 
 
 
-app.get('/', (req: Request, res: Response) => { res.send(`Hello - 11 from Express! ${PORT}`) });
-export default app;
+app.get('/', (req: Request, res: Response) => { res.send(`Hello - 11 from Express! ${PORT}`) }); 
