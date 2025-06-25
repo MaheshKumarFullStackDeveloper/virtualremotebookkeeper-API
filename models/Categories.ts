@@ -19,7 +19,7 @@ const categorySchema = new Schema<ICategory>({
     status: { type: String, enum: ['pending', 'active'], required: true },
     metaTitle: { type: String, required: true },
     metaDescription: { type: String, required: true },
-    order: { type: Number },
+    order: { type: Number, default: 0 },
     image: { type: String },
     content: { type: String },
 

@@ -1,5 +1,6 @@
 
 import Pages from "../models/Pages";
+import Sections from "../models/Sections";
 import { response } from "../utils/responseHandler";
 import { Request, Response } from "express";
 import { ObjectId } from "mongodb";
@@ -119,6 +120,13 @@ export const getPagebySlug = async (req: Request, res: Response) => {
 
 export const deletePage = async (req: Request, res: Response) => {
   try {
+
+    if (!req.params.pageId) {
+      return response(res, 404, "Page id not found ");
+    }
+
+
+    const deleteSections = await Sections.deleteMany({ page: req.params.pageId });
 
     const page = await Pages.findByIdAndDelete(req.params.pageId)
 

@@ -89,7 +89,7 @@ export const getAllBlogs = async (req: Request, res: Response) => {
     const totalBlogs = Math.ceil(totalBlogsCount / limit); // Calculate total pages
 
 
-    const blogsList = await Blog.find()
+    const blogsList = await Blog.find().select('title status slug ')
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit)
@@ -103,14 +103,12 @@ export const getAllBlogs = async (req: Request, res: Response) => {
 };
 
 
-
 export const getBlogbySlug = async (req: Request, res: Response) => {
   try {
     const slug = req.params.slug
     const blog = await Blog.findOne({ slug }).populate({
       path: 'categories',
       select: '_id',
-      options: { sort: { order: 1 } }
     })
 
     if (!blog) {

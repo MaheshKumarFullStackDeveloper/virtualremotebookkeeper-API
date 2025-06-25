@@ -6,13 +6,13 @@ export interface ISection extends Document {
     page: mongoose.Types.ObjectId;
     title: string;
     order: number;
-    content: string;
+    content?: string;
 }
 
 const sectionSchema = new Schema<ISection>({
     page: { type: mongoose.Schema.Types.ObjectId, ref: 'Page', required: true },
     title: { type: String },
-    order: { type: Number },
+    order: { type: Number, default: 0 },
     content: { type: String }
 }, { timestamps: true })
 

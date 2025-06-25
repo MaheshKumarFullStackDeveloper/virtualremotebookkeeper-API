@@ -1,4 +1,5 @@
 
+import Blogs from "../models/Blogs";
 import Category from "../models/Categories";
 import { response } from "../utils/responseHandler";
 import { Request, Response } from "express";
@@ -120,6 +121,14 @@ export const getCategorybySlug = async (req: Request, res: Response) => {
 export const deleteCategory = async (req: Request, res: Response) => {
   try {
 
+    if (!req.params.categoryId) {
+      return response(res, 404, "Category not resive ");
+    }
+
+    await Blogs.updateMany(
+      { categories: req.params.categoryId },
+      { $pull: { categories: req.params.categoryId } }
+    );
     const category = await Category.findByIdAndDelete(req.params.categoryId)
 
     if (!category) {
