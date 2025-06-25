@@ -43,7 +43,7 @@ const corsOption = {
         next();
     }
 };
- */
+  */
 
 
 app.use(cors(corsOption));
@@ -81,12 +81,12 @@ app.use("/api/user/profile", userRoutes)
 
 
 
-/* app.post('/api/category', async (req, res) => {
+app.post('/api/mahesh', async (req, res) => {
     try {
         // your logic here
-        res.json({ success: true, message: 'Category added' });
+        res.json({ success: true, message: 'mahesh added' });
     } catch (error) {
         console.error('Server error:', error);
         res.status(500).json({ success: false, message: 'Internal Server Error' });
     }
-}); */
+}); 
