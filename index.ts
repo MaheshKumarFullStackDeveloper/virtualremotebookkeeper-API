@@ -69,7 +69,7 @@ connectDb();
 
 
 app.use("/api/auth", authRoutes)
-app.use("/api/product", productRoutes)
+//app.use("/api/product", productRoutes)
 app.use("/api/page", pageRoutes)
 app.use("/api/category", categoryRoutes)
 app.use("/api/blog", blogRoutes)
