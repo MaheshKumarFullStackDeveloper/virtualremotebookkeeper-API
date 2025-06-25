@@ -1,18 +1,18 @@
 
-import { NextFunction, Request,Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { response } from "../utils/responseHandler";
 import jwt from "jsonwebtoken";
 
-declare global{
-    namespace Express{
-        interface Request{
-            id :string;
+declare global {
+    namespace Express {
+        interface Request {
+            id: string;
         }
     }
 }
 
 /* check access token is store in cookies. if not find spacific access token in cookes then it return false */
-const authenticatedUser = async(req:Request,res:Response,next:NextFunction)=>{
+/* const authenticatedUser = async(req:Request,res:Response,next:NextFunction)=>{
     const token = req.cookies.access_token;
 
     if(!token){
@@ -31,8 +31,26 @@ const authenticatedUser = async(req:Request,res:Response,next:NextFunction)=>{
     }catch(error){
         return response(res,401,'Not authenticate');
     }
-}
+} */
+
+const authenticatedUser = async (req: Request, res: Response, next: NextFunction) => {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+        return response(res, 401, "No token provided or invalid format");
+    }
+
+    const token = authHeader.split(" ")[1];
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as jwt.JwtPayload;
+        req.id = decoded.userId;
+        next();
+    } catch (error) {
+        return response(res, 401, "Token verification failed");
+    }
+};
 
 
 
-export {authenticatedUser};
+export { authenticatedUser };

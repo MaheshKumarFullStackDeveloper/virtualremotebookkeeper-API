@@ -73,16 +73,16 @@ export const login = async (req: Request, res: Response) => {
          return response(res, 400, "User not Verified please check your email");
       }
       const accessToken = generateToken(user);
-      res.cookie('access_token', accessToken, {
-         httpOnly: true,
-         secure: true,
-         domain: process.env.COOKIE_DOMAIN_URL, // Set domain for cross-origin cookies
-         sameSite: "none", // Required for cross-site cookies
+      /*  res.cookie('access_token', accessToken, {
+          httpOnly: true,
+          secure: true,
+          domain: process.env.COOKIE_DOMAIN_URL, // Set domain for cross-origin cookies
+          sameSite: "none", // Required for cross-site cookies
+ 
+          maxAge: 24 * 60 * 60 * 1000
+       }); */
 
-         maxAge: 24 * 60 * 60 * 1000
-      });
-
-      return response(res, 200, "User login successfully.", { user: { name: user.name, email: user.email } });
+      return response(res, 200, "User login successfully.", { user: { name: user.name, email: user.email }, accessToken });
 
 
    } catch (error) {
