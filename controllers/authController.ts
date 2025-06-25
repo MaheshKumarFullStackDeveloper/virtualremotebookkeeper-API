@@ -43,14 +43,14 @@ export const verifyEmail = async (req: Request, res: Response) => {
       user.isVerified = true;
       user.verificationToken = undefined;
 
-      const accessToken = generateToken(user);
-      res.cookie('access_token', accessToken, {
-         httpOnly: true,
-         secure: true,
-         domain: process.env.COOKIE_DOMAIN_URL, // Set domain for cross-origin cookies
-         sameSite: "none", // Required for cross-site cookies
-         maxAge: 24 * 60 * 60 * 1000
-      });
+      /*      const accessToken = generateToken(user);
+           res.cookie('access_token', accessToken, {
+              httpOnly: true,
+              secure: true,
+              domain: process.env.COOKIE_DOMAIN_URL, // Set domain for cross-origin cookies
+              sameSite: "none", // Required for cross-site cookies
+              maxAge: 24 * 60 * 60 * 1000
+           }); */
 
       await user.save();
 
@@ -142,9 +142,9 @@ export const resetPassword = async (req: Request, res: Response) => {
 export const logout = async (req: Request, res: Response) => {
 
    try {
-      res.clearCookie("access_token", {
-         httpOnly: true
-      })
+      /*  res.clearCookie("access_token", {
+          httpOnly: true
+       }) */
       return response(res, 200, "User logout successfully.");
 
    } catch (error) {
