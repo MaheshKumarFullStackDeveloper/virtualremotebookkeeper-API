@@ -78,4 +78,4 @@ app.use("/api/image", imageRoutes)
 app.use("/api/navigation", menuRoutes)
 app.use("/api/user/profile", userRoutes)
 
-
+module.exports = app;
