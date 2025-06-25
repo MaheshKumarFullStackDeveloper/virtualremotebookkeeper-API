@@ -33,8 +33,14 @@ app.use(cors(corsOption));
 const PORT = process.env.PORT || 8080;
 
 
+
+
+app.use(express.json());
+app.use(bodyParser.json());
+app.use(cookiesParser());
+
 connectDb();
 
-app.get('/', (req: Request, res: Response) => { res.send(`Hello from Express! ${PORT}`) });
+app.get('/', (req: Request, res: Response) => { res.send(`Hello - from Express! ${PORT}`) });
 
 module.exports = app; // ✅ Don't call app.listen()
