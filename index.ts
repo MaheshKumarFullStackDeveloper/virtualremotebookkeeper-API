@@ -75,10 +75,10 @@ app.use("/api/faqcategory", faqcategoryRoutes)
 app.use("/api/faq", faqRoutes)
 app.use("/api/section", sectionRoutes)
 app.use("/api/widget", widgetRoutes)
-/* app.use("/api/image", imageRoutes) */
+app.use("/api/image", imageRoutes)
 app.use("/api/navigation", menuRoutes)
 app.use("/api/user/profile", userRoutes)
 
 
 
-app.get('/', (req: Request, res: Response) => { res.send(`Hello - 6 from Express! ${PORT}`) }); 
+app.get('/', (req: Request, res: Response) => { res.send(`Hello - 7 from Express! ${PORT}`) }); 
