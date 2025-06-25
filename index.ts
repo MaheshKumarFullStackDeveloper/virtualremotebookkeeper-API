@@ -26,8 +26,7 @@ const PORT = process.env.PORT || 8080;
 
 const app = express();
 const corsOption = {
-    /*  origin: process.env.FRONT_URL, */
-    origin: '*',
+    origin: process.env.FRONT_URL,
     credentials: true
 }
 
@@ -47,7 +46,7 @@ const corsErrorHandler = (req: Request, res: Response, next: NextFunction): void
 
 
 app.use(cors(corsOption));
-//app.use(corsErrorHandler);
+app.use(corsErrorHandler);
 
 
 
@@ -67,7 +66,7 @@ connectDb();
 
 
 app.use("/api/auth", authRoutes)
-
+app.use("/api/product", productRoutes)
 app.use("/api/page", pageRoutes)
 app.use("/api/category", categoryRoutes)
 app.use("/api/blog", blogRoutes)
@@ -81,4 +80,4 @@ app.use("/api/user/profile", userRoutes)
 
 
 
-app.get('/', (req: Request, res: Response) => { res.send(`Hello - 10 from Express! ${PORT}`) }); 
+app.get('/', (req: Request, res: Response) => { res.send(`Hello - 11 from Express! ${PORT}`) }); 
