@@ -5,7 +5,7 @@ import Images from "../models/Images";
 import { unlink } from 'fs';
 import { join } from 'path';
 
-/* 
+
 export const uploadPhoto = async (req: Request, res: Response) => {
 
 
@@ -48,7 +48,7 @@ export const uploadPhoto = async (req: Request, res: Response) => {
 };
 
 
- */
+
 
 
 export const getAllImages = async (req: Request, res: Response) => {
@@ -95,7 +95,7 @@ export const deleteImage = async (req: Request, res: Response) => {
 
 
 
-/* 
+
 export const getImagesByUserId = async (req: Request, res: Response) => {
   try {
     const userId = req.params.userId;
@@ -114,5 +114,3 @@ export const getImagesByUserId = async (req: Request, res: Response) => {
     return response(res, 500, "internal server Error image");
   }
 };
-
- */
