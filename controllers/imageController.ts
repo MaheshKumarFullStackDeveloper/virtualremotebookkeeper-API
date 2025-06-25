@@ -4,7 +4,7 @@ import { Request, Response } from "express";
 import Images from "../models/Images";
 import { unlink } from 'fs';
 import { join } from 'path';
-
+import type { VercelRequest, VercelResponse } from '@vercel/node'
 /* 
 export const uploadPhoto = async (req: Request, res: Response) => {
 
@@ -76,7 +76,7 @@ export const getAllImages = async (req: Request, res: Response) => {
 
 
 
-export const deleteImage = async (req: Request, res: Response) => {
+export const deleteImage = async (req: VercelRequest, res: VercelResponse) => {
   try {
 
     const image = await Images.findByIdAndDelete(req.params.imageId)
@@ -85,7 +85,9 @@ export const deleteImage = async (req: Request, res: Response) => {
       return response(res, 404, "Image not found for this id");
     }
 
-    const deleteResponce = await deleteFromCloudinary(image.public_id);
+    const deleteResponce = await deleteFromCloudinary(image.public_id as string);
+    res.status(200).json({ message: "Image deleted", deleteResponce });
+
     // return response(res, 200, "Image deleted successfully", deleteResponce);
     return response(res, 200, "Image deleted successfully");
   } catch (error) {
