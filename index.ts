@@ -80,3 +80,5 @@ app.use("/api/user/profile", userRoutes)
 
 app.get('/', (req, res) => { res.send('Hello 1 from Express!') });
 
+
+module.exports = app;
