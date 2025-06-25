@@ -6,7 +6,7 @@ const router = Router();
 
 //router.post("/",authenticatedUser,multerMiddleware,imageController.uploadPhoto);
 router.get("/:page/:limit", imageController.getAllImages);
-router.delete("/:imageId", authenticatedUser, imageController.deleteImage);
+//router.delete("/:imageId", authenticatedUser, imageController.deleteImage);
 //router.get("/user/:userId", imageController.getImagesByUserId);
 export default router;
 

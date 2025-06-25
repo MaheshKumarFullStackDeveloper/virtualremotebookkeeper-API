@@ -75,7 +75,7 @@ export const getAllImages = async (req: Request, res: Response) => {
 };
 
 
-
+/* 
 export const deleteImage = async (req: Request, res: Response) => {
   try {
 
@@ -91,7 +91,7 @@ export const deleteImage = async (req: Request, res: Response) => {
     console.log(error);
     return response(res, 500, "internal server Error image");
   }
-};
+}; */
 
 
 
