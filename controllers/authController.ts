@@ -47,7 +47,7 @@ export const verifyEmail = async (req: Request, res: Response) => {
       res.cookie('access_token', accessToken, {
          httpOnly: true,
          secure: true,
-         domain: process.env.COOKIE_DOMAIN_URL, // Set domain for cross-origin cookies
+         //  domain: process.env.COOKIE_DOMAIN_URL, // Set domain for cross-origin cookies
          sameSite: "none", // Required for cross-site cookies
          maxAge: 24 * 60 * 60 * 1000
       });
@@ -76,7 +76,7 @@ export const login = async (req: Request, res: Response) => {
       res.cookie('access_token', accessToken, {
          httpOnly: true,
          secure: true,
-         domain: process.env.COOKIE_DOMAIN_URL, // Set domain for cross-origin cookies
+         //    domain: process.env.COOKIE_DOMAIN_URL, // Set domain for cross-origin cookies
          sameSite: "none", // Required for cross-site cookies
 
          maxAge: 24 * 60 * 60 * 1000
