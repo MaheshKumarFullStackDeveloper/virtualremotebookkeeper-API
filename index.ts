@@ -41,7 +41,7 @@ app.use(cookiesParser());
 
 connectDb();
 
-app.get('/', (req: Request, res: Response) => { res.send(`Hello - 3 from Express! ${PORT}`) });
+app.get('/', (req: Request, res: Response) => { res.send(`Hello - 4 from Express! ${PORT}`) });
 
 
 app.use("/api/auth", authRoutes)
@@ -54,7 +54,7 @@ app.use("/api/faq", faqRoutes)
 app.use("/api/section", sectionRoutes)
 app.use("/api/widget", widgetRoutes)
 /* app.use("/api/image", imageRoutes) */
-/* app.use("/api/navigation", menuRoutes)
-app.use("/api/user/profile", userRoutes)  * */
+app.use("/api/navigation", menuRoutes)
+app.use("/api/user/profile", userRoutes)
 
 module.exports = app; // ✅ Don't call app.listen()
