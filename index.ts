@@ -1,7 +1,7 @@
+
+import express, { Request, Response, NextFunction } from "express";
+
 import dotenv from 'dotenv';
-
-import { Request, Response, NextFunction } from "express";
-
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import cookiesParser from 'cookie-parser';
@@ -18,20 +18,35 @@ import faqRoutes from './routes/faqRoutes';
 import categoryRoutes from './routes/categoryRoutes';
 import menuRoutes from './routes/menuRoutes';
 import widgetRoutes from './routes/widgetRoutes';
-const express = require('express');
-const app = express();
+
 
 dotenv.config();
 
+const PORT = process.env.PORT || 8080;
+
+const app = express();
 const corsOption = {
-    origin: '*',
+    origin: process.env.FRONT_URL,
     credentials: true
 }
 
+
+
+
+// Middleware to handle CORS errors
+const corsErrorHandler = (req: Request, res: Response, next: NextFunction): void => {
+    const allowedOrigins = [process.env.FRONT_URL];
+    if (!allowedOrigins.includes(req.headers.origin as string)) {
+        res.status(403).json({ error: "CORS error: Origin not allowed" });
+    } else {
+        next();
+    }
+};
+
+
+
 app.use(cors(corsOption));
-
-const PORT = process.env.PORT || 8080;
-
+app.use(corsErrorHandler);
 
 
 
@@ -39,9 +54,15 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(cookiesParser());
 
+
+app.listen(PORT, () => {
+    console.log(`lission port ${PORT}`);
+
+})
+
+
 connectDb();
 
-app.get('/', (req: Request, res: Response) => { res.send(`Hello - 4 from Express! ${PORT}`) });
 
 
 app.use("/api/auth", authRoutes)
@@ -57,4 +78,6 @@ app.use("/api/widget", widgetRoutes)
 app.use("/api/navigation", menuRoutes)
 app.use("/api/user/profile", userRoutes)
 
-module.exports = app; // ✅ Don't call app.listen()
+
+
+app.get('/', (req: Request, res: Response) => { res.send(`Hello - 5 from Express! ${PORT}`) });
