@@ -26,7 +26,8 @@ const PORT = process.env.PORT || 8080;
 
 const app = express();
 const corsOption = {
-    origin: process.env.FRONT_URL,
+    //origin: process.env.FRONT_URL,
+    origin: '*',
     credentials: true
 }
 
@@ -46,7 +47,7 @@ const corsErrorHandler = (req: Request, res: Response, next: NextFunction): void
 
 
 app.use(cors(corsOption));
-app.use(corsErrorHandler);
+//app.use(corsErrorHandler);
 
 
 
