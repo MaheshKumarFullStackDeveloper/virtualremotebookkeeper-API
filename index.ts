@@ -55,10 +55,10 @@ app.use(bodyParser.json());
 app.use(cookiesParser());
 
 
-app.listen(PORT, () => {
+/* app.listen(PORT, () => {
     console.log(`lission port ${PORT}`);
 
-})
+}) */
 
 
 connectDb();
