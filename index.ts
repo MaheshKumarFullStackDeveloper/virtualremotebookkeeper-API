@@ -23,7 +23,17 @@ const app = express();
 
 dotenv.config();
 
+const corsOption = {
+    origin: '*',
+    credentials: true
+}
+
+app.use(cors(corsOption));
+
 const PORT = process.env.PORT || 8080;
+
+
+connectDb();
 
 app.get('/', (req: Request, res: Response) => { res.send(`Hello from Express! ${PORT}`) });
 
