@@ -26,7 +26,8 @@ const PORT = process.env.PORT || 8080;
 
 const app = express();
 const corsOption = {
-    origin: process.env.FRONT_URL,
+    /*  origin: process.env.FRONT_URL, */
+    origin: '*',
     credentials: true
 }
 
@@ -80,4 +81,4 @@ app.use("/api/user/profile", userRoutes)
 
 
 
-app.get('/', (req: Request, res: Response) => { res.send(`Hello - 5 from Express! ${PORT}`) });
+app.get('/', (req: Request, res: Response) => { res.send(`Hello - 6 from Express! ${PORT}`) }); 
