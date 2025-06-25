@@ -81,12 +81,9 @@ app.use("/api/user/profile", userRoutes)
 
 
 
-app.get('/', async (req, res) => {
-    try {
-        // your logic here
-        res.json({ success: true, message: 'mahesh added' });
-    } catch (error) {
-        console.error('Server error:', error);
-        res.status(500).json({ success: false, message: 'Internal Server Error' });
-    }
-}); 
+
+app.get('/', (req, res) => { res.send('Hello world!') });
+
+
+
+module.exports = app;
