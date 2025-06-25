@@ -37,7 +37,7 @@ const corsOption = {
 const corsErrorHandler = (req: Request, res: Response, next: NextFunction): void => {
     const allowedOrigins = [process.env.FRONT_URL];
     if (!allowedOrigins.includes(req.headers.origin as string)) {
-        res.status(403).json({ error: "CORS error: Origin not allowed" });
+        res.status(403).json({ error: `CORS error: Origin not allowed. only allowed ${process.env.FRONT_URL}` });
     } else {
         next();
     }
