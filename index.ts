@@ -81,7 +81,7 @@ app.use("/api/user/profile", userRoutes)
 
 
 
-app.get('/api/mahesh', async (req, res) => {
+app.get('/', async (req, res) => {
     try {
         // your logic here
         res.json({ success: true, message: 'mahesh added' });
