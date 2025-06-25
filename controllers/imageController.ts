@@ -6,7 +6,7 @@ import { unlink } from 'fs';
 import { join } from 'path';
 
 
-export const uploadPhoto = async (req: Request, res: Response) => {
+/* export const uploadPhoto = async (req: Request, res: Response) => {
 
 
   try {
@@ -45,9 +45,50 @@ export const uploadPhoto = async (req: Request, res: Response) => {
     console.log(error);
     return response(res, 500, "internal server Error image");
   }
+}; */
+
+export const uploadPhoto = async (req: Request, res: Response) => {
+  try {
+    const user = req.id;
+    const photos = req.files as Express.Multer.File[];
+
+    if (!photos || photos.length === 0) {
+      return response(res, 400, "Images are required");
+    }
+
+    // Pass the correct file buffer to Cloudinary
+    const uploadPromises = photos.map(file => uploadToCloudinary(file.buffer));
+    const uploadImages = await Promise.all(uploadPromises);
+
+    console.log("Uploaded files:", uploadImages);
+
+    const img = new Images({
+      image: uploadImages[0].secure_url,
+      public_id: uploadImages[0].public_id,
+      user: user,
+    });
+
+    await img.save();
+
+    // Cleanup: optional file deletion if files were saved locally (not required for memory storage)
+    const fileName = `${uploadImages[0].original_filename}`;
+    const uploadsFolder = join(__dirname, '../uploads');
+    const filePath = join(uploadsFolder, fileName);
+
+    unlink(filePath, (err) => {
+      if (err) {
+        console.error('Error deleting file:', err);
+      } else {
+        console.log('File deleted successfully');
+      }
+    });
+
+    return response(res, 200, "Images uploaded successfully", img);
+  } catch (error) {
+    console.error(error);
+    return response(res, 500, "Internal server error while uploading image");
+  }
 };
-
-
 
 
 
