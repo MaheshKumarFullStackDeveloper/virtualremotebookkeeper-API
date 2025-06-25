@@ -75,7 +75,7 @@ export const getAllImages = async (req: Request, res: Response) => {
 };
 
 
-/* 
+
 export const deleteImage = async (req: Request, res: Response) => {
   try {
 
@@ -85,13 +85,14 @@ export const deleteImage = async (req: Request, res: Response) => {
       return response(res, 404, "Image not found for this id");
     }
 
-    const deleteResponce = await deleteFromCloudinary(image.public_id);
-    return response(res, 200, "Image deleted successfully", deleteResponce);
+    // const deleteResponce = await deleteFromCloudinary(image.public_id);
+    // return response(res, 200, "Image deleted successfully", deleteResponce);
+    return response(res, 200, "Image deleted successfully");
   } catch (error) {
     console.log(error);
     return response(res, 500, "internal server Error image");
   }
-}; */
+};
 
 
 
