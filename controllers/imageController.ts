@@ -85,7 +85,7 @@ export const deleteImage = async (req: Request, res: Response) => {
       return response(res, 404, "Image not found for this id");
     }
 
-    // const deleteResponce = await deleteFromCloudinary(image.public_id);
+    const deleteResponce = await deleteFromCloudinary(image.public_id);
     // return response(res, 200, "Image deleted successfully", deleteResponce);
     return response(res, 200, "Image deleted successfully");
   } catch (error) {

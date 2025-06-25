@@ -1,8 +1,8 @@
 import multer from "multer";
-import {v2 as cloudinary, UploadApiOptions, UploadApiResponse } from "cloudinary";
+import { v2 as cloudinary, UploadApiOptions, UploadApiResponse } from "cloudinary";
 import dotenv from 'dotenv';
 
-import {RequestHandler } from 'express';
+import { RequestHandler } from 'express';
 
 dotenv.config();
 cloudinary.config({
@@ -11,22 +11,22 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET as string
 });
 
-interface CustomFile extends Express.Multer.File{
-    path:string;
+interface CustomFile extends Express.Multer.File {
+    path: string;
 }
 
 
-const uploadToCloudinary= (file:CustomFile):Promise<UploadApiResponse> =>{
-    const options :UploadApiOptions={
-        resource_type:'image'
+const uploadToCloudinary = (file: CustomFile): Promise<UploadApiResponse> => {
+    const options: UploadApiOptions = {
+        resource_type: 'image'
     }
 
-    return new Promise((resolve,reject)=>{
-        cloudinary.uploader.upload(file.path,options,(error,result)=>{
-            if(error){
+    return new Promise((resolve, reject) => {
+        cloudinary.uploader.upload(file.path, options, (error, result) => {
+            if (error) {
                 return reject(error)
             }
-            resolve (result as UploadApiResponse)
+            resolve(result as UploadApiResponse)
         })
     })
 }
@@ -34,15 +34,15 @@ const uploadToCloudinary= (file:CustomFile):Promise<UploadApiResponse> =>{
 
 const deleteFromCloudinary = (publicId: string): Promise<UploadApiResponse> => {
     return new Promise((resolve, reject) => {
-        cloudinary.uploader.destroy(publicId, (error, result) => {
+        /* cloudinary.uploader.destroy(publicId, (error, result) => {
             if (error) {
                 return reject(error);
             }
             resolve(result as UploadApiResponse);
-        });
+        }); */
     });
 };
 
-const multerMiddleware : RequestHandler = multer({dest:"uploads"}).array('images',4)
+const multerMiddleware: RequestHandler = multer({ dest: "uploads" }).array('images', 4)
 
-export {multerMiddleware,uploadToCloudinary, deleteFromCloudinary}
+export { multerMiddleware, uploadToCloudinary, deleteFromCloudinary }
