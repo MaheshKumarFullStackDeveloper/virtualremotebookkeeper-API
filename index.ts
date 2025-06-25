@@ -47,6 +47,8 @@ const corsErrorHandler = (req: Request, res: Response, next: NextFunction): void
 
 
 app.use(cors(corsOption));
+app.options('*', cors()); // Handle preflight
+
 //app.use(corsErrorHandler);
 
 
