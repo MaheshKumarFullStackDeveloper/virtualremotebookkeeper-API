@@ -54,20 +54,29 @@ export const createFaq = async (req: Request, res: Response) => {
 
 
 
-
 export const getAllFaqs = async (req: Request, res: Response) => {
   try {
 
-    const page = parseInt(req.params.page as string) || 1;
-    const limit = parseInt(req.params.limit as string) || 8;
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 8;
     const skip = (page - 1) * limit;
 
+    const search = req.query.search as string;
 
-    const totalFaqsCount = await Faq.countDocuments();
+    const searchFilter = search
+      ? {
+        $or: [
+          { title: { $regex: search, $options: 'i' } },
+          { content: { $regex: search, $options: 'i' } },
+        ],
+      }
+      : {};
+
+    const totalFaqsCount = await Faq.countDocuments(searchFilter);
     const totalFaqs = Math.ceil(totalFaqsCount / limit); // Calculate total pages
 
 
-    const faqsList = await Faq.find()
+    const faqsList = await Faq.find(searchFilter)
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit)

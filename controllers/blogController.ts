@@ -73,34 +73,46 @@ export const createBlog = async (req: Request, res: Response) => {
   }
 };
 
-
-
-
-
 export const getAllBlogs = async (req: Request, res: Response) => {
   try {
-
-    const page = parseInt(req.params.page as string) || 1;
-    const limit = parseInt(req.params.limit as string) || 8;
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 8;
     const skip = (page - 1) * limit;
 
+    const search = req.query.search as string;
 
-    const totalBlogsCount = await Blog.countDocuments();
-    const totalBlogs = Math.ceil(totalBlogsCount / limit); // Calculate total pages
+    const searchFilter = search
+      ? {
+        $or: [
+          { title: { $regex: search, $options: 'i' } },
+          { content: { $regex: search, $options: 'i' } },
+        ],
+      }
+      : {};
 
+    const totalBlogsCount = await Blog.countDocuments(searchFilter);
+    const totalBlogs = Math.ceil(totalBlogsCount / limit);
 
-    const blogsList = await Blog.find().select('title status slug ')
+    const blogsList = await Blog.find(searchFilter)
+      .select('title status slug')
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit)
       .lean();
-    return response(res, 200, "Blogs fetched successfully", { totalBlogsCount, totalBlogs, blogsList, page, limit });
 
+    return response(res, 200, "Blogs fetched successfully", {
+      totalBlogsCount,
+      totalBlogs,
+      blogsList,
+      page,
+      limit,
+    });
   } catch (error) {
-    console.log(error);
-    return response(res, 500, "internal server Error blog ");
+    console.error(error);
+    return response(res, 500, "Internal server error while fetching blogs");
   }
 };
+
 
 
 export const getBlogbySlug = async (req: Request, res: Response) => {

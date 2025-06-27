@@ -71,15 +71,26 @@ export const createPage = async (req: Request, res: Response) => {
 export const getAllPages = async (req: Request, res: Response) => {
   try {
 
-    const page = parseInt(req.params.page as string) || 1;
-    const limit = parseInt(req.params.limit as string) || 8;
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 8;
     const skip = (page - 1) * limit;
 
-    const totalPagesCount = await Pages.countDocuments();
+    const search = req.query.search as string;
+
+    const searchFilter = search
+      ? {
+        $or: [
+          { title: { $regex: search, $options: 'i' } },
+          { content: { $regex: search, $options: 'i' } },
+        ],
+      }
+      : {};
+
+    const totalPagesCount = await Pages.countDocuments(searchFilter);
     const totalPages = Math.ceil(totalPagesCount / limit); // Calculate total pages
 
 
-    const pagesList = await Pages.find()
+    const pagesList = await Pages.find(searchFilter)
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit);

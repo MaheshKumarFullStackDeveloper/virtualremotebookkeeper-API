@@ -4,7 +4,7 @@ import * as blogController from "../controllers/blogController";
 const router = Router();
 
 router.post("/", authenticatedUser, blogController.createBlog);
-router.get("/:page/:limit", blogController.getAllBlogs);
+router.get("/", blogController.getAllBlogs);
 router.get("/:slug", blogController.getBlogbySlug);
 router.delete("/:blogId", authenticatedUser, blogController.deleteBlog);
 export default router;
