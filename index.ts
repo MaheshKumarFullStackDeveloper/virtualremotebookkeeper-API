@@ -3,6 +3,9 @@ import express, { Request, Response, NextFunction } from "express";
 
 import dotenv from 'dotenv';
 import cors from 'cors';
+import helmet from "helmet";
+import rateLimit from "express-rate-limit"; // Rate limiting
+
 import bodyParser from 'body-parser';
 import cookiesParser from 'cookie-parser';
 import connectDb from './config/dbConnect';
@@ -25,6 +28,9 @@ dotenv.config();
 const PORT = process.env.PORT || 8080;
 
 const app = express();
+app.use(helmet());
+
+
 const allowedOrigins: string[] | undefined = process.env.CORS_ORIGIN?.split(',');
 
 const corsOption = {
@@ -52,6 +58,13 @@ const corsErrorHandler = (req: Request, res: Response, next: NextFunction): void
 
 app.use(cors(corsOption));
 app.use(corsErrorHandler);
+
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // Limit each IP to 100 requests per windowMs
+    message: "Too many requests, please try again later.",
+});
+app.use(limiter);
 
 
 
