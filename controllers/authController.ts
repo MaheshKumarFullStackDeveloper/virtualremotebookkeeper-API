@@ -42,19 +42,10 @@ export const verifyEmail = async (req: Request, res: Response) => {
 
       user.isVerified = true;
       user.verificationToken = undefined;
-
-      /*      const accessToken = generateToken(user);
-           res.cookie('access_token', accessToken, {
-              httpOnly: true,
-              secure: true,
-              domain: process.env.COOKIE_DOMAIN_URL, // Set domain for cross-origin cookies
-              sameSite: "none", // Required for cross-site cookies
-              maxAge: 24 * 60 * 60 * 1000
-           }); */
-
       await user.save();
+      const accessToken = generateToken(user);
 
-      return response(res, 200, "User Email Verify successfully. now you can login");
+      return response(res, 200, "User Email Verify successfully. ", { user: { name: user.name, email: user.email }, accessToken });
    } catch (error) {
       console.log(error);
       return response(res, 500, "internal server Error auth")
@@ -73,14 +64,7 @@ export const login = async (req: Request, res: Response) => {
          return response(res, 400, "User not Verified please check your email");
       }
       const accessToken = generateToken(user);
-      /*  res.cookie('access_token', accessToken, {
-          httpOnly: true,
-          secure: true,
-          domain: process.env.COOKIE_DOMAIN_URL, // Set domain for cross-origin cookies
-          sameSite: "none", // Required for cross-site cookies
- 
-          maxAge: 24 * 60 * 60 * 1000
-       }); */
+
 
       return response(res, 200, "User login successfully.", { user: { name: user.name, email: user.email }, accessToken });
 

@@ -47,7 +47,7 @@ const authenticatedUser = async (req: Request, res: Response, next: NextFunction
         req.id = decoded.userId;
         next();
     } catch (error) {
-        return response(res, 401, "Token verification failed");
+        return response(res, 434, "Token verification failed");
     }
 };
 
