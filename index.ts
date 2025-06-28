@@ -25,8 +25,10 @@ dotenv.config();
 const PORT = process.env.PORT || 8080;
 
 const app = express();
+const allowedOrigins: string[] | undefined = process.env.CORS_ORIGIN?.split(',');
+
 const corsOption = {
-    origin: process.env.FRONT_URL,
+    origin: ['http://localhost:3000', 'https://adminvirtua.vercel.app'],
     credentials: true
 }
 
@@ -35,11 +37,14 @@ const corsOption = {
 
 // Middleware to handle CORS errors
 const corsErrorHandler = (req: Request, res: Response, next: NextFunction): void => {
-    const allowedOrigins = [process.env.FRONT_URL];
-    if (!allowedOrigins.includes(req.headers.origin as string)) {
-        res.status(403).json({ error: `CORS error: Origin not allowed. only allowed ${process.env.FRONT_URL}` });
+    if (allowedOrigins !== undefined) {
+        if (!allowedOrigins.includes(req.headers.origin as string)) {
+            res.status(403).json({ error: `CORS error: Origin not allowed. only allowed new ${process.env.FRONT_URL}` });
+        } else {
+            next();
+        }
     } else {
-        next();
+        res.status(403).json({ error: `CORS error: Origin not allowed. only allowed new ${process.env.FRONT_URL}` });
     }
 };
 

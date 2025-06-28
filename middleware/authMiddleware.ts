@@ -37,7 +37,7 @@ const authenticatedUser = async (req: Request, res: Response, next: NextFunction
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
-        return response(res, 401, "No token provided or invalid format");
+        return response(res, 434, "Token verification failed");
     }
 
     const token = authHeader.split(" ")[1];
