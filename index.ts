@@ -45,15 +45,15 @@ const corsOption = {
 const corsErrorHandler = (req: Request, res: Response, next: NextFunction): void => {
     if (allowedOrigins !== undefined) {
         if (!allowedOrigins.includes(req.headers.origin as string)) {
-            console.log(`log domain -- ${req.headers.origin}`, allowedOrigins);
-            console.log(`req--`, req);
-            res.status(403).json({ error: `CORS error: Origin not allowed. only allowed 1 ${process.env.CORS_ORIGIN}` });
+            //    console.log(`log domain -- ${req.headers.origin}`, allowedOrigins);
+            //   console.log(`req--`, req);
+            res.status(403).json({ error: `CORS error: Origin not allowed. only allowed -- ${req.headers.origin}   1 ${process.env.CORS_ORIGIN}` });
         } else {
             next();
         }
     } else {
         console.log(" log domain 2 ", allowedOrigins);
-        res.status(403).json({ error: `CORS error: Origin not allowed. only allowed new ${process.env.CORS_ORIGIN}` });
+        res.status(403).json({ error: `CORS error: Origin not allowed. only allowed new vv ${process.env.CORS_ORIGIN}` });
     }
 };
 
