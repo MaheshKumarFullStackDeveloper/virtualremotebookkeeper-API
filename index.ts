@@ -34,7 +34,7 @@ app.use(helmet());
 const allowedOrigins: string[] | undefined = process.env.CORS_ORIGIN?.split(',');
 
 const corsOption = {
-    origin: ['http://localhost:3000', 'https://adminvirtua.vercel.app'],
+    origin: allowedOrigins,
     credentials: true
 }
 
@@ -45,12 +45,15 @@ const corsOption = {
 const corsErrorHandler = (req: Request, res: Response, next: NextFunction): void => {
     if (allowedOrigins !== undefined) {
         if (!allowedOrigins.includes(req.headers.origin as string)) {
-            res.status(403).json({ error: `CORS error: Origin not allowed. only allowed new ${process.env.FRONT_URL}` });
+            console.log(`log domain -- ${req.headers.origin}`, allowedOrigins);
+            console.log(`req--`, req);
+            res.status(403).json({ error: `CORS error: Origin not allowed. only allowed 1 ${process.env.CORS_ORIGIN}` });
         } else {
             next();
         }
     } else {
-        res.status(403).json({ error: `CORS error: Origin not allowed. only allowed new ${process.env.FRONT_URL}` });
+        console.log(" log domain 2 ", allowedOrigins);
+        res.status(403).json({ error: `CORS error: Origin not allowed. only allowed new ${process.env.CORS_ORIGIN}` });
     }
 };
 
