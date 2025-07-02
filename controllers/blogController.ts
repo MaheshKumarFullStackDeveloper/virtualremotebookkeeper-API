@@ -94,7 +94,7 @@ export const getAllBlogs = async (req: Request, res: Response) => {
     const totalBlogs = Math.ceil(totalBlogsCount / limit);
 
     const blogsList = await Blog.find(searchFilter)
-      .select('title status slug')
+      .select('title status slug image')
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit)

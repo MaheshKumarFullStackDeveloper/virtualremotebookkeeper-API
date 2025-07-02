@@ -47,8 +47,10 @@ const corsErrorHandler = (req: Request, res: Response, next: NextFunction): void
         if (!allowedOrigins.includes(req.headers.origin as string)) {
             //    console.log(`log domain -- ${req.headers.origin}`, allowedOrigins);
             //   console.log(`req--`, req);
+            console.log('Request Headers:', req.headers);
             res.status(403).json({ error: `CORS error: Origin not allowed. only allowed -- ${req.headers.origin}   1 ${process.env.CORS_ORIGIN}` });
         } else {
+            console.log('Request Headers:', req.headers);
             next();
         }
     } else {
