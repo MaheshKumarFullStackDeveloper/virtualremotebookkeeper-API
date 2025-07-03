@@ -1,4 +1,5 @@
 
+import Menus from "../models/Menus";
 import Widget from "../models/Widget";
 import { response } from "../utils/responseHandler";
 import { Request, Response } from "express";
@@ -79,6 +80,7 @@ export const getAllWidgets = async (req: Request, res: Response) => {
 
 
 
+
 export const getWidgetbyId = async (req: Request, res: Response) => {
   try {
     const id = req.params.id
@@ -118,3 +120,63 @@ export const deleteWidget = async (req: Request, res: Response) => {
 };
 
 
+
+
+export const getAllHeaderFooterData = async (req: Request, res: Response) => {
+  try {
+
+
+
+    const widgetsList = await Widget.find()
+      .sort({ createdAt: -1 })
+      .lean();
+
+    const menu = await Menus.aggregate([
+      {
+        $lookup: {
+          from: 'menuitems',
+          let: { menuId: '$_id' },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ['$menu', '$$menuId'] },
+                    { $eq: ['$parent', null] } // Only top-level items
+                  ]
+                }
+              }
+            },
+            {
+              $lookup: {
+                from: 'menuitems',
+                let: { parentId: '$_id', menuId: '$menu' },
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $and: [
+                          { $eq: ['$parent', '$$parentId'] },
+                          { $eq: ['$menu', '$$menuId'] }
+                        ]
+                      }
+                    }
+                  },
+                  { $sort: { order: 1 } }
+                ],
+                as: 'children'
+              }
+            },
+            { $sort: { order: 1 } }
+          ],
+          as: 'items'
+        }
+      }
+    ]);
+    return response(res, 200, "Widgets fetched successfully", { widgetsList, menu });
+
+  } catch (error) {
+    console.log(error);
+    return response(res, 500, "internal server Error widget ");
+  }
+};
