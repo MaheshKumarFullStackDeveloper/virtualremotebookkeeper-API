@@ -2,7 +2,7 @@
 import Faq from "../models/Faq";
 import { response } from "../utils/responseHandler";
 import { Request, Response } from "express";
-
+import Faqcategory from "../models/Faqcategories";
 
 export const createFaq = async (req: Request, res: Response) => {
   try {
@@ -52,6 +52,33 @@ export const createFaq = async (req: Request, res: Response) => {
 };
 
 
+
+
+export const getAllFaqsbyCategorySlug = async (req: Request, res: Response) => {
+  try {
+
+
+
+    const slug = req.query.slug as string;
+    const category = await Faqcategory.findOne({ slug }).exec();
+    if (!category) {
+      throw new Error('Category not found');
+    }
+
+    // Step 2: Find all FAQs that reference this category
+    const faqsList = await Faq.find({ categories: category._id })
+      .populate('categories') // Optional: Populate category details
+      .sort({ createdAt: -1 }) // Optional: Sort by newest first
+      .exec();
+
+
+    return response(res, 200, "Faqs fetched successfully", { faqsList });
+
+  } catch (error) {
+    console.log(error);
+    return response(res, 500, "internal server Error faq ");
+  }
+};
 
 
 export const getAllFaqs = async (req: Request, res: Response) => {

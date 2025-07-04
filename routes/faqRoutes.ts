@@ -5,6 +5,7 @@ const router = Router();
 
 router.post("/", authenticatedUser, faqController.createFaq);
 router.get("/", faqController.getAllFaqs);
+router.get("/bycatslug", faqController.getAllFaqsbyCategorySlug);
 router.get("/:id", faqController.getFaqbyId);
 router.delete("/:faqId", authenticatedUser, faqController.deleteFaq);
 export default router;
