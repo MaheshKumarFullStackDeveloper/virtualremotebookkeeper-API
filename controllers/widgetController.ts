@@ -3,7 +3,7 @@ import Menus from "../models/Menus";
 import Widget from "../models/Widget";
 import { response } from "../utils/responseHandler";
 import { Request, Response } from "express";
-
+import Category from "../models/Categories";
 
 export const createWidget = async (req: Request, res: Response) => {
   try {
@@ -173,7 +173,10 @@ export const getAllHeaderFooterData = async (req: Request, res: Response) => {
         }
       }
     ]);
-    return response(res, 200, "Widgets fetched successfully", { widgetsList, menu });
+
+    const categoryList = await Category.find().sort({ createdAt: -1 }).lean();
+
+    return response(res, 200, "Widgets fetched successfully", { widgetsList, menu, categoryList });
 
   } catch (error) {
     console.log(error);
