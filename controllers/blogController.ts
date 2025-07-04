@@ -94,7 +94,8 @@ export const getAllBlogs = async (req: Request, res: Response) => {
 
     // Apply categoryId filter if present and not empty
     if (categoryId && categoryId.trim() !== "") {
-      searchFilter.category = categoryId;
+      searchFilter.category = { $in: [categoryId] };
+      ;
     }
 
     const totalBlogsCount = await Blog.countDocuments(searchFilter);
