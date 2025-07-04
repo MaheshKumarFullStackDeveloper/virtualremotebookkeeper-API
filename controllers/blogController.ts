@@ -131,7 +131,7 @@ export const getBlogbySlug = async (req: Request, res: Response) => {
     const slug = req.params.slug
     const blog = await Blog.findOne({ slug }).populate({
       path: 'categories',
-      select: '_id',
+      select: '_id slug title',
     })
 
     if (!blog) {
