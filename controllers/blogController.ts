@@ -80,15 +80,22 @@ export const getAllBlogs = async (req: Request, res: Response) => {
     const skip = (page - 1) * limit;
 
     const search = req.query.search as string;
+    const categoryId = req.query.categoryId as string;
 
-    const searchFilter = search
-      ? {
-        $or: [
-          { title: { $regex: search, $options: 'i' } },
-          { content: { $regex: search, $options: 'i' } },
-        ],
-      }
-      : {};
+    // Build base filter object
+    const searchFilter: any = {};
+
+    if (search) {
+      searchFilter.$or = [
+        { title: { $regex: search, $options: 'i' } },
+        { content: { $regex: search, $options: 'i' } },
+      ];
+    }
+
+    // Apply categoryId filter if present and not empty
+    if (categoryId && categoryId.trim() !== "") {
+      searchFilter.category = categoryId;
+    }
 
     const totalBlogsCount = await Blog.countDocuments(searchFilter);
     const totalBlogs = Math.ceil(totalBlogsCount / limit);
@@ -107,12 +114,12 @@ export const getAllBlogs = async (req: Request, res: Response) => {
       page,
       limit,
     });
+
   } catch (error) {
     console.error(error);
     return response(res, 500, "Internal server error while fetching blogs");
   }
 };
-
 
 
 export const getBlogbySlug = async (req: Request, res: Response) => {
