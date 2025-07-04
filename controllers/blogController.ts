@@ -1,4 +1,5 @@
 
+import mongoose from "mongoose";
 import Blog from "../models/Blogs";
 import { response } from "../utils/responseHandler";
 import { Request, Response } from "express";
@@ -94,20 +95,22 @@ export const getAllBlogs = async (req: Request, res: Response) => {
 
     // Apply categoryId filter if present and not empty
     if (categoryId && categoryId.trim() !== "") {
-      searchFilter.category = { $in: [categoryId] };
+      const categoryObjectId = new mongoose.Types.ObjectId(categoryId);
+      searchFilter.categories = { $in: [categoryObjectId] };
+
     }
 
 
     const totalBlogsCount = await Blog.countDocuments(searchFilter);
     const totalBlogs = Math.ceil(totalBlogsCount / limit);
-
+    // console.log("blog search", searchFilter);
     const blogsList = await Blog.find(searchFilter)
       .select('title status slug image')
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit)
       .lean();
-
+    // console.log("blog search list", blogsList);
     return response(res, 200, "Blogs fetched successfully", {
       totalBlogsCount,
       totalBlogs,
