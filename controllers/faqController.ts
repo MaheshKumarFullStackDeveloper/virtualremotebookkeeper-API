@@ -57,17 +57,21 @@ export const createFaq = async (req: Request, res: Response) => {
 export const getAllFaqsbyCategorySlug = async (req: Request, res: Response) => {
   try {
 
-
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 8;
+    const skip = (page - 1) * limit;
 
     const slug = req.query.slug as string;
+
     const category = await Faqcategory.findOne({ slug }).exec();
     if (!category) {
       throw new Error('Category not found');
     }
 
     // Step 2: Find all FAQs that reference this category
-    const faqsList = await Faq.find({ categories: category._id })
-      .populate('categories') // Optional: Populate category details
+    const faqsList = await Faq.find({ categories: category._id }).sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
       .sort({ createdAt: -1 }) // Optional: Sort by newest first
       .exec();
 
