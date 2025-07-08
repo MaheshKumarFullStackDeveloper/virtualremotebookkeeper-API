@@ -16,12 +16,12 @@ export const register = async (req: Request, res: Response) => {
 
       const verificationToken = crypto.randomBytes(20).toString('hex')
 
-      const user = new User({ name, email, password, agreeTerms, verificationToken })
-      console.log("test url 4");
-      await user.save();
+      /*   const user = new User({ name, email, password, agreeTerms, verificationToken })
+        console.log("test url 4");
+        await user.save(); */
 
-      const result = await sendVerificationToEmail(email, verificationToken);
-      console.log("sendVerificationToEmail", result);
+      /*    const result = await sendVerificationToEmail(email, verificationToken); */
+      console.log("sendVerificationToEmail", "");
       return response(res, 200, "User Registeration successful")
    } catch (error) {
       console.log(error);
