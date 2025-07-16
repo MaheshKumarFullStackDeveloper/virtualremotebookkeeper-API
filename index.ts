@@ -30,6 +30,7 @@ const PORT = process.env.PORT || 8080;
 const app = express();
 app.use(helmet());
 
+app.set('trust proxy', 1);
 
 const allowedOrigins: string[] | undefined = process.env.CORS_ORIGIN?.split(',');
 
