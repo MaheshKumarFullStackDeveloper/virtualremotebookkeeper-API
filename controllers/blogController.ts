@@ -81,7 +81,7 @@ export const getAllBlogs = async (req: Request, res: Response) => {
     const skip = (page - 1) * limit;
 
     const search = req.query.search as string;
-    const categoryId = req.query.categoryId as string;
+    const categoryId = req.query.catId as string;
 
     // Build base filter object
     const searchFilter: any = {};
